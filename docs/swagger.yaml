@@ -1,0 +1,95 @@
+definitions:
+  models.Wallet:
+    properties:
+      total:
+        type: integer
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /wallets:
+    post:
+      consumes:
+      - application/json
+      operationId: save-wallet
+      parameters:
+      - description: Информация о кошельке
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.Wallet'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Создать/Обновить кошелек пользователя
+  /wallets/{username}:
+    delete:
+      consumes:
+      - application/json
+      operationId: delete-wallet
+      parameters:
+      - description: Логин пользователя
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Удалить кошелек пользователя
+    get:
+      consumes:
+      - application/json
+      operationId: find-wallet-by-user
+      parameters:
+      - description: Логин пользователя
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Кошелек пользователя
+          schema:
+            $ref: '#/definitions/models.Wallet'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Получить кошелек пользователя
+swagger: "2.0"
